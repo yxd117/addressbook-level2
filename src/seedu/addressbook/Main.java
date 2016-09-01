@@ -31,12 +31,13 @@ public class Main {
     private List<? extends ReadOnlyPerson> lastShownList = Collections.emptyList();
 
 
-    public static void main(String... launchArgs) {
+    public static void main(String... launchArgs) throws FileDeletedException {
         new Main().run(launchArgs);
     }
 
-    /** Runs the program until termination.  */
-    public void run(String[] launchArgs) {
+    /** Runs the program until termination.  
+     * @throws FileDeletedException */
+    public void run(String[] launchArgs) throws FileDeletedException {
         start(launchArgs);
         runCommandLoopUntilExitCommand();
         exit();
@@ -76,11 +77,13 @@ public class Main {
         System.exit(0);
     }
 
-    /** Reads the user command and executes it, until the user issues the exit command.  */
-    private void runCommandLoopUntilExitCommand() {
+    /** Reads the user command and executes it, until the user issues the exit command.  
+     * @throws FileDeletedException */
+    private void runCommandLoopUntilExitCommand() throws FileDeletedException {
         Command command;
         do {
             String userCommandText = ui.getUserCommand();
+        	storage.checkFileDeleted();
             command = new Parser().parseCommand(userCommandText);
             CommandResult result = executeCommand(command);
             recordResult(result);

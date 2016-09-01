@@ -1,5 +1,4 @@
 package seedu.addressbook.storage;
-
 import seedu.addressbook.data.AddressBook;
 import seedu.addressbook.data.exception.IllegalValueException;
 import seedu.addressbook.storage.jaxb.AdaptedAddressBook;
@@ -9,6 +8,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -39,6 +39,16 @@ public class StorageFile {
      */
     public static class StorageOperationException extends Exception {
         public StorageOperationException(String message) {
+            super(message);
+        }
+    }
+
+    /**
+     * Signals that file is deleted while running.
+     */
+    
+    public static class FileDeletedException extends Exception {
+        public FileDeletedException(String message) {
             super(message);
         }
     }
@@ -102,7 +112,18 @@ public class StorageFile {
             throw new StorageOperationException("Error converting address book into storage format");
         }
     }
-
+    /**
+     * Check whether file is deleted while running.
+     *
+     * @throws FileDeletedException if file is deleted while running.
+     */
+    public void checkFileDeleted() throws FileDeletedException {
+//    	System.out.println("Checking" + " " + path);
+    	if (Files.notExists(path)) {
+//    		System.out.println("deleted");
+    		throw new FileDeletedException("File is deleted while runing.");
+    	}
+    }
     /**
      * Loads data from this storage file.
      *

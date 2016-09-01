@@ -8,11 +8,13 @@ import seedu.addressbook.data.exception.IllegalValueException;
  */
 public class Address {
 
-    public static final String EXAMPLE = "123, some street";
+    public static final String EXAMPLE = "123, Clementi Ave 3, #12-34, 231534";
     public static final String MESSAGE_ADDRESS_CONSTRAINTS = "Person addresses can be in any format";
     public static final String ADDRESS_VALIDATION_REGEX = ".+";
-
+//public?
     public final String value;
+    private String block, street, unit, postal_code;
+    
     private boolean isPrivate;
 
     /**
@@ -25,8 +27,18 @@ public class Address {
         if (!isValidAddress(address)) {
             throw new IllegalValueException(MESSAGE_ADDRESS_CONSTRAINTS);
         }
+        splitAddress(address);
         this.value = address;
     }
+
+	private void splitAddress(String address) {
+		String temp[] = address.split(",");
+        block = temp[0].trim();
+        street = temp[1].trim();
+        unit = temp[2].trim();
+        postal_code = temp[3].trim();
+//        System.out.println(temp[0].trim() + temp[1].trim() + temp[2].trim() + temp[3].trim());
+	}
 
     /**
      * Returns true if a given string is a valid person email.
