@@ -8,6 +8,7 @@ import seedu.addressbook.data.tag.Tag;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -22,6 +23,7 @@ public class AddressBook {
 
     private final UniquePersonList allPersons;
     private final UniqueTagList allTags; // can contain tags not attached to any person
+    private List<Tagging> taggings;
 
     /**
      * Creates an empty address book.
